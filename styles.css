@@ -40,7 +40,7 @@ Img:hover {
     background: rgb(121, 68, 121);
     display: flex;
     justify-content: space-around;
-    gap: 15rem;
+    gap: 5rem;
     align-items: center;   
     min-height: 30rem;
 }
@@ -49,9 +49,24 @@ Img:hover {
     width: 15rem;
 }
 .containerLeft {
+    color: rgb(225, 225, 225);
     display: flex;
     flex-direction: column;
     gap: 2rem;
+}
+.middleSectionContainer {
+    display: flex;
+    flex-direction: column;
+    max-width: 14rem; /* */
+    padding: 1rem;
+    border-radius: .2rem;
+    color:rgb(225, 225, 225);
+}
+input {
+    background: inherit;
+    border: .1rem solid rgb(60, 60, 60);
+    border-radius: .2rem;
+    height: 1.5rem;
 }
 button {
     background: none;
@@ -60,7 +75,7 @@ button {
     border-radius: .3rem;
     padding: 1rem;
     cursor: pointer;
-    font-size: 1.3rem;
+    font-size: 1.5rem;
 }
 button:hover {
     transform: scale(1.2);
@@ -68,6 +83,7 @@ button:hover {
 }
 button:active {
    background: rgb(225, 225, 225);
+   color:rgb(60, 60, 60);
 }
 .stats {
     color: rgb(225, 225, 225);
