@@ -1,4 +1,5 @@
 let myLibrary = [];
+inputError = false;
 
 enableQuerySelectors = () => {
     addBtn = document.querySelector(".addBtn");
@@ -7,16 +8,24 @@ enableQuerySelectors = () => {
     tittleInpt = document.querySelector("#tittle");
     authorInpt = document.querySelector("#Author");
     pagesInpt = document.querySelector("#pages");
-    readInpt = document.querySelector("#read");
+    readInpt = document.querySelector(".readInpt");
     tittleDiv = document.querySelector(".tittleDiv");
     authorDiv = document.querySelector(".authorDiv");
     pagesDiv = document.querySelector(".pagesDiv");
     readDiv = document.querySelector(".readDiv");
     warningPara = document.querySelector(".inputWarning")
+    middleDiv = document.querySelector(".middleSectionContainer")
 }
 enableEventListeners = () => {
-    addBtn.addEventListener("click", getUserInpt);
-    statsBtn.addEventListener("click", () => console.table(myLibrary));
+    window.addEventListener("keyup", () => {
+        validateInput();
+    });
+    addBtn.addEventListener("click", () => {
+        getUserInpt();        
+    });
+    statsBtn.addEventListener("click", () => {
+        console.table(myLibrary);
+    });
 }
 createWarning = (type) => {
     warningPara = document.createElement("p");
@@ -31,13 +40,17 @@ createWarning = (type) => {
     }
 }
 getUserInpt = () => {
-    const tittle = tittleInpt.value;
-    const author = authorInpt.value;
-    const pages = pagesInpt.value;
-    const read = readInpt.value;
-    return myLibrary.push(new Book (tittle, author, pages, read));
+    validateInput();
+    if (inputError === true) return;
+        const tittle = tittleInpt.value;
+        const author = authorInpt.value;
+        const pages = pagesInpt.value;
+        const read = readInpt.value;
+        return myLibrary.push(new Book (tittle, author, pages, read));
 }
 validateInput = () => {
+    if (!middleDiv.contains(warningPara)) inputError = true;
+
     if (tittleInpt.value === "") {
         createWarning('text'); 
         // avoids creating more than one warning
@@ -51,10 +64,9 @@ validateInput = () => {
         createWarning('number'); 
         if (pagesDiv.children.length <3) pagesDiv.appendChild(warningPara);
     } else if (pagesDiv.children.length > 2) pagesDiv.removeChild(pagesDiv.lastChild); 
-    if (readInpt.value === "" || isNaN(parseInt(readInpt.value))) {
-        createWarning('number'); 
-        if (readDiv.children.length <3) readDiv.appendChild(warningPara);
-    } else if (readDiv.children.length > 2) readDiv.removeChild(readDiv.lastChild); 
+
+    
+
 }
 function Book (tittle, author, pages, read) {
     this.tittle = tittle; 
@@ -70,3 +82,8 @@ Book.prototype.info = function () {
 //const book1 = new Book ('The Fellowship of the Ring', 'J. R. R. Tolkien', 423, false);
 enableQuerySelectors();
 enableEventListeners();
+
+mapLibrary = (item) => {
+    return [item.info()];
+}
+
