@@ -18,10 +18,17 @@ enableEventListeners = () => {
     addBtn.addEventListener("click", getUserInpt);
     statsBtn.addEventListener("click", () => console.table(myLibrary));
 }
-createWarning = () => {
+createWarning = (type) => {
     warningPara = document.createElement("p");
-    warningPara.textContent = "Invalid name";
     warningPara.setAttribute("class", "inputWarning");
+    switch (type) {
+        case ('text'): 
+            warningPara.textContent = "Invalid name";
+        break;
+        case ('number'): 
+            warningPara.textContent = "Invalid number";
+        break;
+    }
 }
 getUserInpt = () => {
     const tittle = tittleInpt.value;
@@ -32,12 +39,22 @@ getUserInpt = () => {
 }
 validateInput = () => {
     if (tittleInpt.value === "") {
-        createWarning(); 
+        createWarning('text'); 
         // avoids creating more than one warning
         if (tittleDiv.children.length < 3) tittleDiv.appendChild(warningPara);
     } else if (tittleDiv.children.length > 2) tittleDiv.removeChild(tittleDiv.lastChild)   //removes warning, if it had one
-
-    
+    if (authorInpt.value === "") {
+        createWarning('text'); 
+        if (authorDiv.children.length < 3) authorDiv.appendChild(warningPara);
+    } else if (authorDiv.children.length > 2) authorDiv.removeChild(authorDiv.lastChild)
+    if (pagesInpt.value === "" || isNaN(parseInt(pagesInpt.value))) {
+        createWarning('number'); 
+        if (pagesDiv.children.length <3) pagesDiv.appendChild(warningPara);
+    } else if (pagesDiv.children.length > 2) pagesDiv.removeChild(pagesDiv.lastChild); 
+    if (readInpt.value === "" || isNaN(parseInt(readInpt.value))) {
+        createWarning('number'); 
+        if (readDiv.children.length <3) readDiv.appendChild(warningPara);
+    } else if (readDiv.children.length > 2) readDiv.removeChild(readDiv.lastChild); 
 }
 function Book (tittle, author, pages, read) {
     this.tittle = tittle; 
