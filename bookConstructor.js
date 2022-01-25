@@ -15,17 +15,15 @@ enableQuerySelectors = () => {
     readDiv = document.querySelector(".readDiv");
     warningPara = document.querySelector(".inputWarning")
     middleDiv = document.querySelector(".middleSectionContainer")
+    statsDiv = document.querySelector(".stats");
+    containerRight = document.querySelector(".containerRight");
+    inputs = document.querySelectorAll("input");
 }
 enableEventListeners = () => {
-    window.addEventListener("keyup", () => {
-        validateInput();
-    });
-    addBtn.addEventListener("click", () => {
-        getUserInpt();        
-    });
-    statsBtn.addEventListener("click", () => {
-        console.table(myLibrary);
-    });
+    window.addEventListener("keyup", validateInput);
+    addBtn.addEventListener("click", getUserInpt);
+    statsBtn.addEventListener("click", showLibrary);
+    deleteBtn.addEventListener("click", clean)
 }
 createWarning = (type) => {
     warningPara = document.createElement("p");
@@ -81,15 +79,30 @@ function neatInput (string) {
         first = x.slice(0, 1);
         firstUpper = first.toUpperCase();
         theRest = x.slice(1);
-        return firstUpper + theRest;
-    
+        return firstUpper + theRest;    
     });
     const neat = spaceStringArray.toString().replace(/,/g, " ");
     return neat;   
 }
-
-
-//const book1 = new Book ('The Fellowship of the Ring', 'J. R. R. Tolkien', 423, false);
+function showLibrary () {
+    containerRight.style.background = ("rgb(60, 60, 60)");
+    myResultLibrary = myLibrary.map(function (x) {
+        return x.info(x);
+    });
+    myResultLibrary.forEach((item => {
+        resultDiv = document.createElement("div");
+        resultDiv.textContent = item;
+        statsDiv.appendChild(resultDiv);
+    }))
+}
+function clean () {
+    containerRight.style.background = 'inherit';
+    while(statsDiv.firstChild) {
+        statsDiv.removeChild(statsDiv.lastChild);
+    }
+    myLibrary = [];
+    inputs.forEach((input => input.value = ""));
+}
 enableQuerySelectors();
 enableEventListeners();
 
