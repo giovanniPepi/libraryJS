@@ -88,3 +88,8 @@ button:active {
 .stats {
     color: rgb(225, 225, 225);
 }
+.inputWarning {
+    color:red;
+    font-size: 1rem;
+    margin:.3rem;
+}

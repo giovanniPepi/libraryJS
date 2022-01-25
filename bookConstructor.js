@@ -8,10 +8,19 @@ enableQuerySelectors = () => {
     authorInpt = document.querySelector("#Author");
     pagesInpt = document.querySelector("#pages");
     readInpt = document.querySelector("#read");
+    tittleDiv = document.querySelector(".tittleDiv");
+    authorDiv = document.querySelector(".authorDiv");
+    pagesDiv = document.querySelector(".pagesDiv");
+    readDiv = document.querySelector(".readDiv");
 }
 enableEventListeners = () => {
     addBtn.addEventListener("click", getUserInpt);
     statsBtn.addEventListener("click", () => console.table(myLibrary));
+}
+createWarning = () => {
+    warningPara = document.createElement("p");
+    warningPara.textContent = "Invalid name";
+    warningPara.setAttribute("class", "inputWarning");
 }
 getUserInpt = () => {
     const tittle = tittleInpt.value;
@@ -19,6 +28,19 @@ getUserInpt = () => {
     const pages = pagesInpt.value;
     const read = readInpt.value;
     return myLibrary.push(new Book (tittle, author, pages, read));
+}
+validateInput = () => {
+    if (tittleInpt.value === "") {
+        createWarning(); 
+        // avoids creating more than one warning
+        (tittleDiv.children.length < 3)? tittleDiv.appendChild(warningPara) : false; 
+    } else tittleDiv.removeChild(tittleDiv.lastChild); //removes warning, if it had one
+    if (authorInpt.value === "") {
+        createWarning(); 
+        (authorDiv.children.length < 3)? authorDiv.appendChild(warningPara) : false;
+    } else authorDiv.removeChild(warningPara); 
+
+    
 }
 function Book (tittle, author, pages, read) {
     this.tittle = tittle; 
