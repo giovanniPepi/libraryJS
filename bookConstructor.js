@@ -49,7 +49,7 @@ getUserInpt = () => {
         return myLibrary.push(new Book (tittle, author, pages, read));
 }
 validateInput = () => {
-    if (middleDiv.contains(warningPara)) inputError = true;
+    middleDiv.contains(warningPara)? inputError = true : inputError = false;
     if (tittleInpt.value === "") {
         createWarning('text'); 
         // avoids creating more than one warning
@@ -63,9 +63,6 @@ validateInput = () => {
         createWarning('number'); 
         if (pagesDiv.children.length <3) pagesDiv.appendChild(warningPara);
     } else if (pagesDiv.children.length > 2) pagesDiv.removeChild(pagesDiv.lastChild); 
-
-    
-
 }
 function Book (tittle, author, pages, read) {
     this.tittle = tittle; 
@@ -89,12 +86,7 @@ function neatInput (string) {
     });
     const neat = spaceStringArray.toString().replace(/,/g, " ");
     return neat;   
-
 }
-mapLibrary = (item) => {
-    return [item.info()];
-}
-
 
 
 //const book1 = new Book ('The Fellowship of the Ring', 'J. R. R. Tolkien', 423, false);
