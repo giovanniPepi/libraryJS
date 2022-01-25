@@ -12,6 +12,7 @@ enableQuerySelectors = () => {
     authorDiv = document.querySelector(".authorDiv");
     pagesDiv = document.querySelector(".pagesDiv");
     readDiv = document.querySelector(".readDiv");
+    warningPara = document.querySelector(".inputWarning")
 }
 enableEventListeners = () => {
     addBtn.addEventListener("click", getUserInpt);
@@ -33,12 +34,8 @@ validateInput = () => {
     if (tittleInpt.value === "") {
         createWarning(); 
         // avoids creating more than one warning
-        (tittleDiv.children.length < 3)? tittleDiv.appendChild(warningPara) : false; 
-    } else tittleDiv.removeChild(tittleDiv.lastChild); //removes warning, if it had one
-    if (authorInpt.value === "") {
-        createWarning(); 
-        (authorDiv.children.length < 3)? authorDiv.appendChild(warningPara) : false;
-    } else authorDiv.removeChild(warningPara); 
+        if (tittleDiv.children.length < 3) tittleDiv.appendChild(warningPara);
+    } else if (tittleDiv.children.length > 2) tittleDiv.removeChild(tittleDiv.lastChild)   //removes warning, if it had one
 
     
 }
