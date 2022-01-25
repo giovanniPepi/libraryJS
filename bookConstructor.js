@@ -42,15 +42,14 @@ createWarning = (type) => {
 getUserInpt = () => {
     validateInput();
     if (inputError === true) return;
-        const tittle = tittleInpt.value;
-        const author = authorInpt.value;
+        const tittle = neatInput(tittleInpt.value);
+        const author = neatInput(authorInpt.value);
         const pages = pagesInpt.value;
         const read = readInpt.value;
         return myLibrary.push(new Book (tittle, author, pages, read));
 }
 validateInput = () => {
-    if (!middleDiv.contains(warningPara)) inputError = true;
-
+    if (middleDiv.contains(warningPara)) inputError = true;
     if (tittleInpt.value === "") {
         createWarning('text'); 
         // avoids creating more than one warning
@@ -79,11 +78,28 @@ Book.prototype.info = function () {
     this.read? readStatus = "already read." : readStatus = "not read yet.";
     return `${this.tittle}, by ${this.author}, ${this.pages} pages, ${readStatus}`;
 }
+function neatInput (string) {
+    const spaceString = string.split(" ");
+    const spaceStringArray = spaceString.map(function (x) {
+        first = x.slice(0, 1);
+        firstUpper = first.toUpperCase();
+        theRest = x.slice(1);
+        return firstUpper + theRest;
+    
+    });
+    const neat = spaceStringArray.toString().replace(/,/g, " ");
+    return neat;   
+
+}
+mapLibrary = (item) => {
+    return [item.info()];
+}
+
+
+
 //const book1 = new Book ('The Fellowship of the Ring', 'J. R. R. Tolkien', 423, false);
 enableQuerySelectors();
 enableEventListeners();
 
-mapLibrary = (item) => {
-    return [item.info()];
-}
+
 
