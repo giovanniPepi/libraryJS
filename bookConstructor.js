@@ -3,7 +3,7 @@ inputError = false;
 
 enableQuerySelectors = () => {
     addBtn = document.querySelector(".addBtn");
-    deleteBtn = document.querySelector(".deleteBtn");
+    cleanBtn = document.querySelector(".cleanBtn");
     statsBtn = document.querySelector(".statsBtn");
     tittleInpt = document.querySelector("#tittle");
     authorInpt = document.querySelector("#Author");
@@ -18,12 +18,15 @@ enableQuerySelectors = () => {
     statsDiv = document.querySelector(".stats");
     containerRight = document.querySelector(".containerRight");
     inputs = document.querySelectorAll("input");
+    deleteBtn = document.querySelector(".deleteBtn");
+    deleteBookDiv = document.querySelector(".deleteBookDiv");
 }
 enableEventListeners = () => {
     window.addEventListener("keyup", validateInput);
     addBtn.addEventListener("click", getUserInpt);
     statsBtn.addEventListener("click", showLibrary);
-    deleteBtn.addEventListener("click", clean)
+    cleanBtn.addEventListener("click", clean)
+    deleteBtn.addEventListener("click", deleteArea);
 }
 createWarning = (type) => {
     warningPara = document.createElement("p");
@@ -86,12 +89,10 @@ function neatInput (string) {
 }
 function showLibrary () {
     containerRight.style.background = ("rgb(60, 60, 60)");
-    myResultLibrary = myLibrary.map(function (x) {
-        return x.info(x);
-    });
-    myResultLibrary.forEach((item => {
+    myLibrary.forEach((item => {
         resultDiv = document.createElement("div");
-        resultDiv.textContent = item;
+        resultDiv.setAttribute("data-indexPosition", `${myLibrary.indexOf(item)}`);
+        resultDiv.textContent = item.info(); 
         statsDiv.appendChild(resultDiv);
     }))
 }
@@ -102,6 +103,25 @@ function clean () {
     }
     myLibrary = [];
     inputs.forEach((input => input.value = ""));
+}
+function deleteBook (index) {
+    myLibrary.splice(index, 1);
+}
+function deleteArea () {
+    if(deleteBookDiv.children.length > 1) return;
+    askDeleteP = document.createElement("p");
+    askDeleteP.textContent = "Book to delete: ";
+    deleteBookDiv.appendChild(askDeleteP);
+    selectDelete = document.createElement("select");
+    selectDelete.setAttribute("class", "deleteSelect");
+    myLibrary.forEach((book => {
+        deleteOption = document.createElement("option");
+        deleteOption.setAttribute("value", `${book['tittle']}`);
+        deleteOption.textContent = `${book['tittle']}`;
+        selectDelete.appendChild(deleteOption);
+    }))
+    deleteBookDiv.appendChild(selectDelete);
+
 }
 enableQuerySelectors();
 enableEventListeners();
