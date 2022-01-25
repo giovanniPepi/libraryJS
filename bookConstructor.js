@@ -17,5 +17,6 @@ Book.prototype.info = function () {
 }
 const book1 = new Book ('The Fellowship of the Ring', 'J. R. R. Tolkien', 423, false);
 
+let myLibrary = [];
 
 
