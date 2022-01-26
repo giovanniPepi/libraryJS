@@ -3,6 +3,7 @@ let deleteCreated = false;
 let editMode = false;
 let inputValidation = false;
 
+
 enableQuerySelectors = () => {
     addBtn = document.querySelector(".addBtn");
     cleanBtn = document.querySelector(".cleanBtn");
@@ -50,6 +51,7 @@ enableEventListeners = () => {
         editMode = true;
         editBook();
     })
+    middleDiv.addEventListener("click", validateInput);
 }
 createWarning = (type) => {
     warningPara = document.createElement("p");
@@ -197,6 +199,6 @@ function editBook () {
 }
 enableQuerySelectors();
 enableEventListeners();
-
+clean();
 
 
