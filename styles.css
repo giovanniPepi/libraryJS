@@ -113,3 +113,9 @@ button:active {
     padding: 1rem;
     color: rgb(225, 225, 225);
 }
+select {
+    background: rgb(60, 60, 60);
+    border: .1rem solid rgb(60, 60, 60);
+    border-radius: .2rem;
+    color: rgb(225, 225, 225);
+}
