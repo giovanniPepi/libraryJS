@@ -88,6 +88,7 @@ function neatInput (string) {
 }
 function showLibrary () {
     if (containerRight.children.length > 0) containerRight.innerHTML = "" ; //clean delete section before showing library;
+    if (myLibrary.length === 0) return; // avoids creating an empty div
     statsDiv = document.createElement("div");
     statsDiv.setAttribute("class", "stats");
     myLibrary.forEach((item => {
@@ -114,6 +115,7 @@ function deleteBook (index) {
 function deleteArea () {
     if (deleteCreated) return // 
     if(containerRight.children.length > 0) containerRight.innerHTML = ""; // clean statsDiv before displaying books
+    if (myLibrary.length === 0) return; // avoids creating an empty div
     deleteBookDiv = document.createElement("div");
     deleteBookDiv.setAttribute("class", "deleteBookDiv");
     askDeleteP = document.createElement("p");
