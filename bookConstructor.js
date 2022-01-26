@@ -62,6 +62,11 @@ createWarning = (type) => {
         break;
     }
 }
+removeWarnings = () => {
+    if (tittleDiv.children.length > 2) tittleDiv.removeChild(tittleDiv.lastChild);
+    if (authorDiv.children.length > 2) authorDiv.removeChild(authorDiv.lastChild);
+    if (pagesDiv.children.length > 2) pagesDiv.removeChild(pagesDiv.lastChild);     
+}
 getUserInpt = () => {
     validateInput();
     if (inputWarning) return; //avoid duplicating warnings
@@ -80,17 +85,17 @@ validateInput = () => {
         inputValidation = false;
         // avoids creating more than one warning
         if (tittleDiv.children.length < 3) tittleDiv.appendChild(warningPara);
-    } else if (tittleDiv.children.length > 2) tittleDiv.removeChild(tittleDiv.lastChild)   //removes warning, if it had one
+    } else removeWarnings();   //removes warning, if it had one
     if (authorInpt.value === "") {
         createWarning('text'); 
         inputValidation = false;
         if (authorDiv.children.length < 3) authorDiv.appendChild(warningPara);
-    } else if (authorDiv.children.length > 2) authorDiv.removeChild(authorDiv.lastChild)
+    } else removeWarnings();
     if (pagesInpt.value === "" || isNaN(parseInt(pagesInpt.value))) {
         createWarning('number');
         inputValidation = false; 
         if (pagesDiv.children.length <3) pagesDiv.appendChild(warningPara);
-    } else if (pagesDiv.children.length > 2) pagesDiv.removeChild(pagesDiv.lastChild);
+    } else removeWarnings();
 }
 function Book (tittle, author, pages, read) {
     this.tittle = tittle; 
@@ -133,6 +138,8 @@ function clean () {
     inputs.forEach((input => input.value = ""));
     cleanRight();
     refreshInput();
+    warnings = document.querySelectorAll(".inputWarning")
+    warnings.forEach((warning => warning.textContent = ""));
 }
 function deleteBook (index) {
     myLibrary.splice(index, 1);
