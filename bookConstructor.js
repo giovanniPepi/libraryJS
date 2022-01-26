@@ -129,8 +129,18 @@ function deleteArea () {
         selectDelete.appendChild(deleteOption);
     }))
     deleteBookDiv.appendChild(selectDelete);
-    containerRight.appendChild(deleteBookDiv);    
-    deleteCreated = true;
+    containerRight.appendChild(deleteBookDiv);   
+    deleteCreated = true; // boolean to avoid duplication
+    createDeleteOptionListener();
+}
+function createDeleteOptionListener () {
+    deleteArray = document.querySelectorAll(".deleteOption");
+    deleteArray.forEach((item => item.addEventListener ("click", () => {
+        deleteBook(item.id);
+        containerRight.innerHTML = "";
+        deleteCreated = false;
+        deleteArea();
+    })));
 }
 enableQuerySelectors();
 enableEventListeners();
