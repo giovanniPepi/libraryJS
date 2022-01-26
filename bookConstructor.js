@@ -92,7 +92,8 @@ validateInput = () => {
         inputValidation = false;
         if (authorDiv.children.length < 3) authorDiv.appendChild(warningPara);
     } else removeWarnings();
-    if (pagesInpt.value === "" || isNaN(parseInt(pagesInpt.value))) {
+    let regex=/^[0-9]+$/;
+    if (pagesInpt.value === "" || !pagesInpt.value.match(regex)) {
         createWarning('number');
         inputValidation = false; 
         if (pagesDiv.children.length <3) pagesDiv.appendChild(warningPara);
@@ -184,7 +185,6 @@ function createDeleteOptionListener () {
             authorInpt.value = `${myLibrary[item.id]['author']}`;
             pagesInpt.value = `${myLibrary[item.id]['pages']}`;
             readInpt.value = `${myLibrary[item.id]['read']}`;
-            deleteBook(item.id);
             cleanRight();
             deleteCreated = false;
             deleteArea();
