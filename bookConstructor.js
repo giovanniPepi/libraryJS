@@ -1,5 +1,6 @@
 let myLibrary = [];
 let deleteCreated = false;
+let editMode = false;
 
 enableQuerySelectors = () => {
     addBtn = document.querySelector(".addBtn");
@@ -19,13 +20,33 @@ enableQuerySelectors = () => {
     containerRight = document.querySelector(".containerRight");
     inputs = document.querySelectorAll("input");
     deleteBtn = document.querySelector(".deleteBtn");
+    editBookBtn = document.querySelector(".editBook");
+}
+function cleanRight () {
+    containerRight.innerHTML = "";
+}
+function refreshInput() {
+    tittleInpt.value = '';
+    authorInpt.value = '';
+    pagesInpt.value = '';
+    readInpt.value = '';            
 }
 enableEventListeners = () => {
     window.addEventListener("keyup", validateInput);
-    addBtn.addEventListener("click", getUserInpt);
+    addBtn.addEventListener("click", () => {
+        getUserInpt();
+        cleanRight();
+    });
     statsBtn.addEventListener("click", showLibrary);
     cleanBtn.addEventListener("click", clean)
-    deleteBtn.addEventListener("click", deleteArea);
+    deleteBtn.addEventListener("click", () => {
+        editMode = false;
+        deleteArea();
+    });
+    editBookBtn.addEventListener("click", () => {
+        editMode = true;
+        editBook();
+    })
 }
 createWarning = (type) => {
     warningPara = document.createElement("p");
@@ -41,7 +62,7 @@ createWarning = (type) => {
 }
 getUserInpt = () => {
     validateInput();
-    if (inputError === true) return;
+    if (inputError === true) return; //avoid duplicating warnings
         const tittle = neatInput(tittleInpt.value);
         const author = neatInput(authorInpt.value);
         const pages = pagesInpt.value;
@@ -87,7 +108,7 @@ function neatInput (string) {
     return neat;   
 }
 function showLibrary () {
-    if (containerRight.children.length > 0) containerRight.innerHTML = "" ; //clean delete section before showing library;
+    if (containerRight.children.length > 0) cleanRight() ; //clean delete section before showing library;
     if (myLibrary.length === 0) return; // avoids creating an empty div
     statsDiv = document.createElement("div");
     statsDiv.setAttribute("class", "stats");
@@ -101,20 +122,17 @@ function showLibrary () {
     deleteCreated = false;
 }
 function clean () {
-    containerRight.style.background = 'inherit';
-    while(statsDiv.firstChild) {
-        statsDiv.removeChild(statsDiv.lastChild);
-    }
     myLibrary = [];
     inputs.forEach((input => input.value = ""));
-    containerRight.innerHTML = "";
+    cleanRight();
+    refreshInput();
 }
 function deleteBook (index) {
     myLibrary.splice(index, 1);
 }
 function deleteArea () {
-    if (deleteCreated) return // 
-    if(containerRight.children.length > 0) containerRight.innerHTML = ""; // clean statsDiv before displaying books
+    if (deleteCreated) return // avoid duplication; 
+    if(containerRight.children.length > 0) cleanRight(); // clean statsDiv before displaying books
     if (myLibrary.length === 0) return; // avoids creating an empty div
     deleteBookDiv = document.createElement("div");
     deleteBookDiv.setAttribute("class", "deleteBookDiv");
@@ -137,12 +155,36 @@ function deleteArea () {
 }
 function createDeleteOptionListener () {
     deleteArray = document.querySelectorAll(".deleteOption");
-    deleteArray.forEach((item => item.addEventListener ("click", () => {
-        deleteBook(item.id);
-        containerRight.innerHTML = "";
-        deleteCreated = false;
-        deleteArea();
-    })));
+    if (!editMode) {
+        deleteArray.forEach((item => item.addEventListener ("click", () => {
+            deleteBook(item.id);
+            cleanRight();
+            deleteCreated = false;
+            deleteArea();
+        })));
+    } else if (editMode) {
+        askDeleteP.textContent = "Click on a book to edit";
+        deleteArray.forEach((item => item.addEventListener ("click", () => {
+            tittleInpt.value = `${myLibrary[item.id]['tittle']}`;
+            authorInpt.value = `${myLibrary[item.id]['author']}`;
+            pagesInpt.value = `${myLibrary[item.id]['pages']}`;
+            readInpt.value = `${myLibrary[item.id]['read']}`;
+            deleteBook(item.id);
+            cleanRight();
+            deleteCreated = false;
+            deleteArea();
+        })));
+    }
+}
+function editBook () {
+    deleteArea();   
+    createDeleteOptionListener();
+    
+    
+    //tittleInpt.value = 'fuck';
+    /* const author = neatInput(authorInpt.value);
+    const pages = pagesInpt.value;
+     const read = readInpt.value;*/    
 }
 enableQuerySelectors();
 enableEventListeners();
