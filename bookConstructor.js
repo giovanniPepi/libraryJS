@@ -1,5 +1,5 @@
 let myLibrary = [];
-inputError = false;
+let deleteCreated = false;
 
 enableQuerySelectors = () => {
     addBtn = document.querySelector(".addBtn");
@@ -19,7 +19,6 @@ enableQuerySelectors = () => {
     containerRight = document.querySelector(".containerRight");
     inputs = document.querySelectorAll("input");
     deleteBtn = document.querySelector(".deleteBtn");
-    deleteBookDiv = document.querySelector(".deleteBookDiv");
 }
 enableEventListeners = () => {
     window.addEventListener("keyup", validateInput);
@@ -88,13 +87,17 @@ function neatInput (string) {
     return neat;   
 }
 function showLibrary () {
-    containerRight.style.background = ("rgb(60, 60, 60)");
+    if (containerRight.children.length > 0) containerRight.innerHTML = "" ; //clean delete section before showing library;
+    statsDiv = document.createElement("div");
+    statsDiv.setAttribute("class", "stats");
     myLibrary.forEach((item => {
         resultDiv = document.createElement("div");
         resultDiv.setAttribute("data-indexPosition", `${myLibrary.indexOf(item)}`);
         resultDiv.textContent = item.info(); 
         statsDiv.appendChild(resultDiv);
     }))
+    containerRight.appendChild(statsDiv);
+    deleteCreated = false;
 }
 function clean () {
     containerRight.style.background = 'inherit';
@@ -103,31 +106,31 @@ function clean () {
     }
     myLibrary = [];
     inputs.forEach((input => input.value = ""));
-    deleteBookDiv.innerHTML = "";
+    containerRight.innerHTML = "";
 }
 function deleteBook (index) {
     myLibrary.splice(index, 1);
 }
 function deleteArea () {
-    // creates delete selection
-    if(deleteBookDiv.children.length > 1) return;
+    if (deleteCreated) return // 
+    if(containerRight.children.length > 0) containerRight.innerHTML = ""; // clean statsDiv before displaying books
+    deleteBookDiv = document.createElement("div");
+    deleteBookDiv.setAttribute("class", "deleteBookDiv");
     askDeleteP = document.createElement("p");
-    askDeleteP.textContent = "Book to delete: ";
+    askDeleteP.textContent = "Click on a book to delete: ";
     deleteBookDiv.appendChild(askDeleteP);
-    selectDelete = document.createElement("select");
+    selectDelete = document.createElement("div");
     selectDelete.setAttribute("class", "deleteSelect");
     myLibrary.forEach((book => {
-        deleteOption = document.createElement("option");
-        deleteOption.setAttribute("value", `${myLibrary.indexOf(book)}`);
+        deleteOption = document.createElement("div");
+        deleteOption.setAttribute("class", "deleteOption");
+        deleteOption.setAttribute("id", `${myLibrary.indexOf(book)}`);
         deleteOption.textContent = `${book['tittle']}`;
         selectDelete.appendChild(deleteOption);
     }))
     deleteBookDiv.appendChild(selectDelete);
-    selectDelete.addEventListener("change", () => {
-        option = selectDelete.options[selectDelete.selectedIndex];
-        deleteBook(option);
-    })
-    
+    containerRight.appendChild(deleteBookDiv);    
+    deleteCreated = true;
 }
 enableQuerySelectors();
 enableEventListeners();

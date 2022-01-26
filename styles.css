@@ -99,3 +99,17 @@ button:active {
 .stats {
     padding: 1.5rem;
 }
+.deleteSelect, .stats {
+    border: .3rem solid rgb(60, 60, 60);
+    border-radius: .2rem;
+    display: flex;
+    flex-direction: column;
+    color: rgb(225, 225, 225);
+}
+.deleteOption {
+    border: .1rem solid rgb(60, 60, 60);
+    border-radius: .2rem;
+    font-size: 1.5rem;
+    padding: 1rem;
+    color: rgb(225, 225, 225);
+}
