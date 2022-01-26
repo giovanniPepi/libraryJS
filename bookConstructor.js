@@ -1,6 +1,7 @@
 let myLibrary = [];
 let deleteCreated = false;
 let editMode = false;
+let inputValidation = false;
 
 enableQuerySelectors = () => {
     addBtn = document.querySelector(".addBtn");
@@ -28,14 +29,15 @@ function cleanRight () {
 function refreshInput() {
     tittleInpt.value = '';
     authorInpt.value = '';
-    pagesInpt.value = '';
-    readInpt.value = '';            
+    pagesInpt.value = '';       
 }
 enableEventListeners = () => {
     window.addEventListener("keyup", validateInput);
     addBtn.addEventListener("click", () => {
         getUserInpt();
         cleanRight();
+        if(myLibrary.length > 0 ) showLibrary();
+        refreshInput();
     });
     statsBtn.addEventListener("click", showLibrary);
     cleanBtn.addEventListener("click", clean)
@@ -62,7 +64,8 @@ createWarning = (type) => {
 }
 getUserInpt = () => {
     validateInput();
-    if (inputError === true) return; //avoid duplicating warnings
+    if (inputWarning) return; //avoid duplicating warnings
+    if (!inputValidation) return // avoid pushign empty items to myLibrary;
         const tittle = neatInput(tittleInpt.value);
         const author = neatInput(authorInpt.value);
         const pages = pagesInpt.value;
@@ -70,20 +73,24 @@ getUserInpt = () => {
         return myLibrary.push(new Book (tittle, author, pages, read));
 }
 validateInput = () => {
-    middleDiv.contains(warningPara)? inputError = true : inputError = false;
+    middleDiv.contains(warningPara)? inputWarning = true : inputWarning = false;
+    inputValidation = true;
     if (tittleInpt.value === "") {
         createWarning('text'); 
+        inputValidation = false;
         // avoids creating more than one warning
         if (tittleDiv.children.length < 3) tittleDiv.appendChild(warningPara);
     } else if (tittleDiv.children.length > 2) tittleDiv.removeChild(tittleDiv.lastChild)   //removes warning, if it had one
     if (authorInpt.value === "") {
         createWarning('text'); 
+        inputValidation = false;
         if (authorDiv.children.length < 3) authorDiv.appendChild(warningPara);
     } else if (authorDiv.children.length > 2) authorDiv.removeChild(authorDiv.lastChild)
     if (pagesInpt.value === "" || isNaN(parseInt(pagesInpt.value))) {
-        createWarning('number'); 
+        createWarning('number');
+        inputValidation = false; 
         if (pagesDiv.children.length <3) pagesDiv.appendChild(warningPara);
-    } else if (pagesDiv.children.length > 2) pagesDiv.removeChild(pagesDiv.lastChild); 
+    } else if (pagesDiv.children.length > 2) pagesDiv.removeChild(pagesDiv.lastChild);
 }
 function Book (tittle, author, pages, read) {
     this.tittle = tittle; 
@@ -109,7 +116,7 @@ function neatInput (string) {
 }
 function showLibrary () {
     if (containerRight.children.length > 0) cleanRight() ; //clean delete section before showing library;
-    if (myLibrary.length === 0) return; // avoids creating an empty div
+    if (myLibrary.length == 0) return; // avoids creating an empty div
     statsDiv = document.createElement("div");
     statsDiv.setAttribute("class", "stats");
     myLibrary.forEach((item => {
@@ -179,12 +186,6 @@ function createDeleteOptionListener () {
 function editBook () {
     deleteArea();   
     createDeleteOptionListener();
-    
-    
-    //tittleInpt.value = 'fuck';
-    /* const author = neatInput(authorInpt.value);
-    const pages = pagesInpt.value;
-     const read = readInpt.value;*/    
 }
 enableQuerySelectors();
 enableEventListeners();
