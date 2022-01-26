@@ -29,7 +29,8 @@ function cleanRight () {
 function refreshInput() {
     tittleInpt.value = '';
     authorInpt.value = '';
-    pagesInpt.value = '';       
+    pagesInpt.value = '';     
+    removeWarnings();  
 }
 enableEventListeners = () => {
     window.addEventListener("keyup", validateInput);
