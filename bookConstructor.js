@@ -187,6 +187,7 @@ function createDeleteOptionListener () {
             authorInpt.value = `${myLibrary[item.id]['author']}`;
             pagesInpt.value = `${myLibrary[item.id]['pages']}`;
             readInpt.value = `${myLibrary[item.id]['read']}`;
+            deleteBook(item.id);
             cleanRight();
             deleteCreated = false;
             deleteArea();
