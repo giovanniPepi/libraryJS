@@ -24,15 +24,18 @@ enableQuerySelectors = () => {
     deleteBtn = document.querySelector(".deleteBtn");
     editBookBtn = document.querySelector(".editBook");
 }
+
 function cleanRight () {
     containerRight.innerHTML = "";
 }
+
 function refreshInput() {
     tittleInpt.value = '';
     authorInpt.value = '';
     pagesInpt.value = '';     
     removeWarnings();  
 }
+
 enableEventListeners = () => {
     window.addEventListener("keyup", validateInput);
     addBtn.addEventListener("click", () => {
@@ -53,6 +56,7 @@ enableEventListeners = () => {
     })
     middleDiv.addEventListener("click", validateInput);
 }
+
 createWarning = (type) => {
     warningPara = document.createElement("p");
     warningPara.setAttribute("class", "inputWarning");
@@ -65,11 +69,13 @@ createWarning = (type) => {
         break;
     }
 }
+
 removeWarnings = () => {
     if (tittleDiv.children.length > 2) tittleDiv.removeChild(tittleDiv.lastChild);
     if (authorDiv.children.length > 2) authorDiv.removeChild(authorDiv.lastChild);
     if (pagesDiv.children.length > 2) pagesDiv.removeChild(pagesDiv.lastChild);     
 }
+
 getUserInpt = () => {
     validateInput();
     if (inputWarning) return; //avoid duplicating warnings
@@ -80,6 +86,7 @@ getUserInpt = () => {
         const read = readInpt.value;
         return myLibrary.push(new Book (tittle, author, pages, read));
 }
+
 validateInput = () => {
     middleDiv.contains(warningPara)? inputWarning = true : inputWarning = false;
     inputValidation = true;
@@ -101,17 +108,38 @@ validateInput = () => {
         if (pagesDiv.children.length <3) pagesDiv.appendChild(warningPara);
     } else removeWarnings();
 }
-function Book (tittle, author, pages, read) {
+
+/* function Book (tittle, author, pages, read) {
     this.tittle = tittle; 
     this.author = author; 
     this.pages = pages;
     this.read = read;
 }
-Book.prototype.info = function () {
+ */
+
+/* Book.prototype.info = function () {
     let readStatus;
     this.read? readStatus = "already read." : readStatus = "not read yet.";
     return `${this.tittle}, by ${this.author}, ${this.pages} pages, ${readStatus}`;
+} */
+
+class Book { 
+  
+  constructor(tittle, author, pages, read) {
+    this.tittle = tittle; 
+    this.author = author; 
+    this.pages = pages;
+    this.read = read;
+  }
+
+  setReadStats() {
+    let readStatus;
+    this.read? readStatus = "already read." : readStatus = "not read yet.";
+    return `${this.tittle}, by ${this.author}, ${this.pages} pages, ${readStatus}`
+  }
+
 }
+
 function neatInput (string) {
     const spaceString = string.split(" ");
     const spaceStringArray = spaceString.map(function (x) {
@@ -123,6 +151,7 @@ function neatInput (string) {
     const neat = spaceStringArray.toString().replace(/,/g, " ");
     return neat;   
 }
+
 function showLibrary () {
     if (containerRight.children.length > 0) cleanRight() ; //clean delete section before showing library;
     if (myLibrary.length == 0) return; // avoids creating an empty div
@@ -137,6 +166,7 @@ function showLibrary () {
     containerRight.appendChild(statsDiv);
     deleteCreated = false;
 }
+
 function clean () {
     myLibrary = [];
     inputs.forEach((input => input.value = ""));
@@ -145,9 +175,11 @@ function clean () {
     warnings = document.querySelectorAll(".inputWarning")
     warnings.forEach((warning => warning.textContent = ""));
 }
+
 function deleteBook (index) {
     myLibrary.splice(index, 1);
 }
+
 function deleteArea () {
     if (deleteCreated) return // avoid duplication; 
     if(containerRight.children.length > 0) cleanRight(); // clean statsDiv before displaying books
@@ -171,6 +203,7 @@ function deleteArea () {
     deleteCreated = true; // boolean to avoid duplication
     createDeleteOptionListener();
 }
+
 function createDeleteOptionListener () {
     deleteArray = document.querySelectorAll(".deleteOption");
     if (!editMode) {
@@ -194,12 +227,16 @@ function createDeleteOptionListener () {
         })));
     }
 }
+
 function editBook () {
     deleteArea();   
     createDeleteOptionListener();
 }
+
 enableQuerySelectors();
+
 enableEventListeners();
+
 clean();
 
 
