@@ -84,7 +84,7 @@ getUserInpt = () => {
         const author = neatInput(authorInpt.value);
         const pages = pagesInpt.value;
         const read = readInpt.value;
-        return myLibrary.push(new Book (tittle, author, pages, read));
+        myLibrary = new Book(tittle, author, pages, read);
 }
 
 validateInput = () => {
@@ -131,6 +131,7 @@ class Book {
     this.pages = pages;
     this.read = read;
   }
+
 
   setReadStats() {
     let readStatus;
