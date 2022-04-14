@@ -126,19 +126,17 @@ validateInput = () => {
 class Book { 
   
   constructor(tittle, author, pages, read) {
-    this.tittle = tittle; 
-    this.author = author; 
-    this.pages = pages;
-    this.read = read;
+    return [this.tittle = tittle,
+    this.author = author,
+    this.pages = pages,
+    this.read = read,];
   }
-
-
-  setReadStats() {
+  
+  info(){
     let readStatus;
     this.read? readStatus = "already read." : readStatus = "not read yet.";
     return `${this.tittle}, by ${this.author}, ${this.pages} pages, ${readStatus}`
   }
-
 }
 
 function neatInput (string) {
