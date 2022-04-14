@@ -84,7 +84,7 @@ getUserInpt = () => {
         const author = neatInput(authorInpt.value);
         const pages = pagesInpt.value;
         const read = readInpt.value;
-        myLibrary = new Book(tittle, author, pages, read);
+        myLibrary.push(new Book(tittle, author, pages, read));
 }
 
 validateInput = () => {
@@ -126,16 +126,17 @@ validateInput = () => {
 class Book { 
   
   constructor(tittle, author, pages, read) {
-    return [this.tittle = tittle,
-    this.author = author,
-    this.pages = pages,
-    this.read = read,];
+    this.tittle = tittle;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
   }
-  
-  info(){
+
+  info() {
+    console.log('fuck');
     let readStatus;
     this.read? readStatus = "already read." : readStatus = "not read yet.";
-    return `${this.tittle}, by ${this.author}, ${this.pages} pages, ${readStatus}`
+    return `${this.tittle}, by ${this.author}, ${this.pages} pages, ${readStatus}`;
   }
 }
 
